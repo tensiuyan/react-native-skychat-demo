@@ -2,6 +2,8 @@
 
 This demo is linked with the "edwardtrial" SkyChat account. Let Ten know if you don't have the access to the account.
 
+Dec 11: This demo project is in alpha. Please let us know if there's any issue. 🙏 
+
 ## Set up
 
 1. Make sure you have installed [React Native](https://facebook.github.io/react-native/docs/getting-started.html). 
