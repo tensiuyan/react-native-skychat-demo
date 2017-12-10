@@ -29,7 +29,7 @@ For details, please go to the data browser in your developer portal. (Database >
 
 ## Other notes
 
-The UI of the conversation view is built with [Gifted Chat](gifted.chat). It is an open source React Native messaging UI library.
+The UI of the conversation view is built with [Gifted Chat](http://gifted.chat). It is an open source React Native messaging UI library.
 
 ## Learn more
 
