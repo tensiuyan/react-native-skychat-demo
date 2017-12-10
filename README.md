@@ -1,4 +1,4 @@
-#React Native SkyChat demo
+# React Native SkyChat demo
 
 This demo is linked with the "edwardtrial" SkyChat account. Let Ten know if you don't have the access to the account.
 
