@@ -23,29 +23,53 @@ export default class ConversationList extends Component {
   }
 
   componentDidMount() {
-    this.getConversationList()
+    this.getConversationList();
+    this.subscribe();
   }
 
-  getConversationList () {
-    skygearChat.getConversations().then((conversations) => {
-      //console.log('Fetched ' + conversations.length.toString() + 'conversations.');
-      this.setState({
-        data: conversations,
-      })
-  })
-    // const User = skygear.Record.extend('user');
-    // const query = new skygear.Query(User);
-    // query.limit = 10000;
-    // console.log("wei");
-    // skygear.publicDB.query(query).then((users) => {
-    //   console.log(users);
-    //   this.setState({
-    //     data: users,
-    //   })
-    // }, (error) => {
-    //   console.error(error);
-    // });
+  componentWillUnmount() {
+    this.unmounted = true;
   }
+
+  // subscribe() {
+  //   skygearChat.subscribe((msgData) => {
+  //     if (msgData.record.conversation.id === currentId) {
+  //       console.log(msgData)
+  //       this.setState((previousState) => {
+  //         return {
+  //           messages: append([{
+  //             _id: msgData.record.id,
+  //             text: msgData.record.body,
+  //             createdAt: msgData.record._createdAt,
+  //             user: {
+  //               _id: msgData.record.ownerID,
+  //               // avatar: 'https://facebook.github.io/react/img/logo_og.png',
+  //             },
+  //           }],previousState.messages),
+  //         };
+  //       });
+  //     }
+  //   })
+  // }
+
+
+  //this is only for demo purposes. avoid calling an aysnc function and setting state in componentDidMount
+  getConversationList() {
+    skygearChat.getConversations().then((conversations) => {
+      console.log(conversations);
+      if (!this.unmounted) {
+        this.setState({
+          data: conversations,
+        });
+      }
+    });
+  };
+
+  subscribe() {
+    skygearChat.subscribe((msgData) => {
+      this.getConversationList();
+    })
+  };
 
   renderSeparator () {
     return (
@@ -59,22 +83,33 @@ export default class ConversationList extends Component {
     );
   };
 
-  render() {
+  renderItem = ({ item }) => {
     const navigate = this.props.navigation.navigate;
+    return (
+      <TouchableHighlight onPress={() => navigate('Conversation', {item})}>
+        <View>
+          <Text style={styles.flatlist}>{item.title}</Text>
+          <Text style={styles.lastMessage}>{item.last_message.body}</Text>
+        </View>
+      </TouchableHighlight>
+    );
+  }
+
+  render() {
     return (
       <View style={styles.container}>
         <FlatList
           data={this.state.data}
-          renderItem={({item}) =>
-            <TouchableHighlight onPress={() => navigate('Conversation', {item})}>
-                  <Text style={styles.flatlist}>{item.title}</Text>
-            </TouchableHighlight>
-          }
-          keyExtractor={item => item.id}
+          renderItem={this.renderItem}
+          keyExtractor={this._keyExtractor}
           ItemSeparatorComponent={this.renderSeparator}
         />
       </View>
     );
+  }
+
+  _keyExtractor = (item) => {
+    return item.id;
   }
 }
 
@@ -88,6 +123,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft:"5%",
     marginTop:"5%",
+    marginBottom: "1%",
+  },
+  lastMessage: {
+    fontSize: 12,
+    marginLeft:"5%",
+    marginTop:"1%",
     marginBottom: "5%",
   }
 });

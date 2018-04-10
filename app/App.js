@@ -21,8 +21,8 @@ export default class App extends Component {
 
   componentDidMount() {
     skygear.config({
-      'endPoint': 'https://chatdemoapp.skygeario.com/', // trailing slash is required
-      'apiKey': 'c0d796f60a9649d78ade26e65c460459',
+      'endPoint': 'https://awesometenten.skygeario.com/', // trailing slash is required
+      'apiKey': '19f6c34425d94c7785639415eb96a40f',
     }).then(() => {
       console.log('skygear is ready to make API call');
     });

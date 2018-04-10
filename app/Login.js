@@ -20,12 +20,22 @@ export default class Login extends Component {
       password: '',
     };
     this.login = this.login.bind(this);
+    this.logout = this.logout.bind(this);
+
   }
 
   login() {
     skygear.auth.loginWithUsername(this.state.username, this.state.password).then((user) => {
       console.log(user); // user record
       this.props.navigation.navigate('ConversationList');
+    }, (error) => {
+      console.log("cannot create user", error);
+    });
+  }
+
+  logout() {
+    skygear.auth.logout().then(() => {
+      console.log('logout successfully'); // user record
     }, (error) => {
       console.log("cannot create user", error);
     });
@@ -53,6 +63,11 @@ export default class Login extends Component {
         <Button
           onPress={this.login}
           title="Login Now"
+          color="#007bd4"
+        />
+        <Button
+          onPress={this.logout}
+          title="Logout"
           color="#007bd4"
         />
         <Text>Please login with "Ten", "!234"</Text>
