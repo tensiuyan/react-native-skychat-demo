@@ -31,28 +31,6 @@ export default class ConversationList extends Component {
     this.unmounted = true;
   }
 
-  // subscribe() {
-  //   skygearChat.subscribe((msgData) => {
-  //     if (msgData.record.conversation.id === currentId) {
-  //       console.log(msgData)
-  //       this.setState((previousState) => {
-  //         return {
-  //           messages: append([{
-  //             _id: msgData.record.id,
-  //             text: msgData.record.body,
-  //             createdAt: msgData.record._createdAt,
-  //             user: {
-  //               _id: msgData.record.ownerID,
-  //               // avatar: 'https://facebook.github.io/react/img/logo_og.png',
-  //             },
-  //           }],previousState.messages),
-  //         };
-  //       });
-  //     }
-  //   })
-  // }
-
-
   //this is only for demo purposes. avoid calling an aysnc function and setting state in componentDidMount
   getConversationList() {
     skygearChat.getConversations().then((conversations) => {
@@ -86,10 +64,14 @@ export default class ConversationList extends Component {
   renderItem = ({ item }) => {
     const navigate = this.props.navigation.navigate;
     return (
-      <TouchableHighlight onPress={() => navigate('Conversation', {item})}>
-        <View>
-          <Text style={styles.flatlist}>{item.title}</Text>
-          <Text style={styles.lastMessage}>{item.last_message.body}</Text>
+      <TouchableHighlight
+        onPress={() => navigate('Conversation', {item})} >
+        <View style={styles.flatlist}>
+          <Text style={styles.conversationTitle}>{item.title}</Text>
+          <View style={styles.lastAUnread}>
+            <Text style={styles.lastMessage}>{item.last_message.body}</Text>
+            <Text style={styles.unreadCount}>{item.unread_count}</Text>
+          </View>
         </View>
       </TouchableHighlight>
     );
@@ -120,15 +102,22 @@ const styles = StyleSheet.create({
   },
 
   flatlist: {
-    fontSize: 16,
-    marginLeft:"5%",
-    marginTop:"5%",
-    marginBottom: "1%",
+    padding: 10,
+    flexDirection: 'column',
+    margin: 20,
+  },
+  conversationTitle: {
+    fontSize: 18,
+  },
+  lastAUnread:{
+    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   lastMessage: {
-    fontSize: 12,
-    marginLeft:"5%",
-    marginTop:"1%",
-    marginBottom: "5%",
+    fontSize: 15,
+  },
+  unreadCount: {
+    fontSize: 15,
   }
 });

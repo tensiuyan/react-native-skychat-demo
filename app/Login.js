@@ -21,7 +21,6 @@ export default class Login extends Component {
     };
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
-
   }
 
   login() {
@@ -40,6 +39,7 @@ export default class Login extends Component {
       console.log("cannot create user", error);
     });
   }
+
 
   render() {
     return (

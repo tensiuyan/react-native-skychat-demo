@@ -59,7 +59,8 @@ export default class Conversation extends React.Component {
           createdAt: message._createdAt,
           user: {
             _id: message.ownerID,
-          }
+          },
+          image: null,
         }))
       })
     });
@@ -82,7 +83,8 @@ export default class Conversation extends React.Component {
           createdAt: result._createdAt,
           user: {
             _id: result.ownerID,
-          }
+          },
+          image: null,
         }],previousState.messages),
       }));
     })
@@ -107,6 +109,7 @@ export default class Conversation extends React.Component {
                 _id: msgData.record.ownerID,
                 // avatar: 'https://facebook.github.io/react/img/logo_og.png',
               },
+              image: null,
             }],previousState.messages),
           };
         });
@@ -122,9 +125,11 @@ export default class Conversation extends React.Component {
         style= {{backgroundColor: '#ffffff'}}
         messages={this.state.messages}
         onSend={(messages) => this.onSend(messages)}
+        alwaysShowSend = {true}
         user={{
           _id: userID,
         }}
+       renderActions={this.renderCustomActions}
       />
     );
   }
